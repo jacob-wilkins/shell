@@ -1,5 +1,6 @@
 #include <unistd.h>     // fork, execve, chdir
 #include <sys/wait.h>   // wait
+#include <limits.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,11 +8,6 @@
 #include <string.h>
 
 #define BUFFER_SIZE 1024
-
-// builtin commands for shell
-int shell_exit() {
-    exit(0);
-}
 
 static void print(const char* format, ...) {
     char buffer[BUFFER_SIZE];   // Buffer to store formatted output
@@ -41,19 +37,47 @@ typedef struct {
     builtin_func func;
 } Commands;
 
+// builtin commands for shell
+int shellExit(char **args) {
+    exit(0);
+}
+
+void shellCd(char **args) {
+    if (args[1] == NULL) {
+        fprintf(stderr, "cd: missing argument\n");
+    }
+    if (chdir(args[1]) != 0) {
+        perror("cd");
+    }
+}
+
 Commands commands[] = {
-    {"exit", shell_exit},
+    {"exit", shellExit},
+    {"cd", shellCd},
 };
+
+int numCommands() {
+    return sizeof(commands) / sizeof(Commands);
+}
+
+void checkForCommands(char **args) {
+    for(int i = 0; i < numCommands(); i++) {
+        if (strcmp(args[0], commands[i].name) == 0) {
+            commands[i].func(args);
+        }
+    }
+}
 
 // not sure how to update this yet
 char *env[] = { "HOME=/usr/home", "LOGNAME=home", (char *)0 };
 
 int main() {
+    char buf[BUFFER_SIZE];
 
     // main shell loop
     while (1) {
-        print("\n$ ");
-        fflush(stdout);
+        char *cwd = getcwd(buf, (size_t)pathconf(".", _PC_PATH_MAX));
+        print("\n%s$ ", cwd);
 
         int status;
 
@@ -79,6 +103,7 @@ int main() {
         // TODO: check if args[0] is in the custom command list
         //          if so, then execute the command
         //          else, fork
+        checkForCommands(args);
 
         int pid = fork();
         if (pid == 0) {

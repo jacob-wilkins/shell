@@ -1,0 +1,9 @@
+# executable if not cleaned before merging
+shell
+
+# out files
+*.o
+
+# vscode configurations
+.vscode/
+

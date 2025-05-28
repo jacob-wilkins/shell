@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 #define CONTINUE 2
-#define SUCCESS 1
+#define COMMAND_NOT_FOUND 1
 #define FAIL 0
 
 typedef int (*builtin_func)(char **args);   // custom type to point to commands
@@ -55,5 +55,5 @@ int checkForCommands(char **args) {
         }
     }
 
-    return SUCCESS;
+    return COMMAND_NOT_FOUND;
 }

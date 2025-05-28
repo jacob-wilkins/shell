@@ -11,7 +11,7 @@
 
 #define BUFFER_SIZE 1024
 #define CONTINUE 2
-#define SUCCESS 1
+#define COMMAND_NOT_FOUND 1
 #define FAIL 0
 
 // not sure how to update this yet
@@ -20,11 +20,23 @@ char *env[] = { "HOME=/usr/home", "LOGNAME=home", (char *)0 };
 
 int main() {
     char buf[BUFFER_SIZE];
+    char hostname[BUFFER_SIZE];
 
     // main shell loop
     while (1) {
         char *cwd = getcwd(buf, (size_t)pathconf(".", _PC_PATH_MAX));
-        print("%s$ ", cwd);
+        char *home = getenv("HOME");
+        char display_cwd[BUFFER_SIZE];
+        gethostname(hostname, sizeof(hostname));
+
+        if (home && strncmp(cwd, home, strlen(home)) == 0) {
+            // Replace home directory with ~
+            snprintf(display_cwd, sizeof(display_cwd), "~%s", cwd + strlen(home));
+        } else {
+            snprintf(display_cwd, sizeof(display_cwd), "%s", cwd);
+        }
+        
+        print("%s@%s:%s$ ", getenv("USER"), hostname, display_cwd);
 
         int status;
 
@@ -55,7 +67,7 @@ int main() {
             case FAIL:
                 // if one of the custom commands fail
                 continue;
-            case SUCCESS:
+            case COMMAND_NOT_FOUND:
                 // no custom command was found, so now its
                 // time to rely on execve
                 // kinda confusing naming
@@ -77,5 +89,5 @@ int main() {
         waitpid(pid, &status, 0);
     }
 
-    return SUCCESS;
+    return COMMAND_NOT_FOUND;
 }

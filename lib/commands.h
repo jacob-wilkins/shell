@@ -3,4 +3,6 @@
 
 int checkForCommands(char **ars);
 
+int numCommands();
+
 #endif

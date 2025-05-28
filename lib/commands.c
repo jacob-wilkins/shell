@@ -5,6 +5,10 @@
 #include <string.h>
 #include <unistd.h>
 
+#define CONTINUE 2
+#define SUCCESS 1
+#define FAIL 0
+
 typedef int (*builtin_func)(char **args);   // custom type to point to commands
 
 typedef struct {
@@ -20,19 +24,24 @@ int shellExit(char **args) {
 int shellCd(char **args) {
     if (args[1] == NULL) {
         fprintf(stderr, "cd: missing argument\n");
-        return 0;
+        return FAIL;
     }
     if (chdir(args[1]) != 0) {
         perror("cd");
-        return 0;
+        return FAIL;
     }
 
-    return 0;
+    return CONTINUE;
+}
+
+int shellEmpty(char **args) {
+    return CONTINUE;
 }
 
 Commands commands[] = {
     {"exit", shellExit},
     {"cd", shellCd},
+    {"", shellEmpty},
 };
 
 int numCommands() {
@@ -46,5 +55,5 @@ int checkForCommands(char **args) {
         }
     }
 
-    return 1;
+    return SUCCESS;
 }

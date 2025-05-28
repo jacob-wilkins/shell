@@ -10,8 +10,12 @@
 #include <string.h>
 
 #define BUFFER_SIZE 1024
+#define CONTINUE 2
+#define SUCCESS 1
+#define FAIL 0
 
 // not sure how to update this yet
+// might change to using execvp instead of execve
 char *env[] = { "HOME=/usr/home", "LOGNAME=home", (char *)0 };
 
 int main() {
@@ -20,7 +24,7 @@ int main() {
     // main shell loop
     while (1) {
         char *cwd = getcwd(buf, (size_t)pathconf(".", _PC_PATH_MAX));
-        print("\n%s$ ", cwd);
+        print("%s$ ", cwd);
 
         int status;
 
@@ -45,8 +49,20 @@ int main() {
 
         // check if one of the custom commands was entered
         // if error from one of the custom commands, then skip forking
-        if (!checkForCommands(args)) {
-            continue;
+        switch (checkForCommands(args)) {
+            case CONTINUE:
+                continue;
+            case FAIL:
+                // if one of the custom commands fail
+                continue;
+            case SUCCESS:
+                // no custom command was found, so now its
+                // time to rely on execve
+                // kinda confusing naming
+                // might change in the future
+                break;
+            default:
+                break;
         }
 
         int pid = fork();
@@ -61,5 +77,5 @@ int main() {
         waitpid(pid, &status, 0);
     }
 
-    return 1;
+    return SUCCESS;
 }

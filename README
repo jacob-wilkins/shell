@@ -42,7 +42,7 @@ $ exit
 
 ## Custom Commands
 
-You can add more built-in commands by editing the `commands` table and providing handler functions in `main.c`.
+You can add more built-in commands by editing the `commands` table and providing handler functions in `lib/commands.c`.
 
 ## Cleaning Up
 

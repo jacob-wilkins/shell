@@ -1,6 +1,10 @@
+
 # Simple Shell
 
 This project is a simple Unix-like shell implemented in C. It supports running external commands, as well as a set of built-in commands.
+
+
+
 
 ## Features
 
@@ -11,52 +15,42 @@ This project is a simple Unix-like shell implemented in C. It supports running e
 - Command-line prompt
 - Basic argument parsing (space-delimited)
 
-## Build
 
+
+## Build
 To build the shell, use the provided Makefile:
 
 ```sh
 make
 ```
-
-This will produce an executable named `shell`.
-
 ## Usage
 
 Run the shell:
 
 ```sh
-./shell
+make run
 ```
 
-You will see a prompt (`$`). Type commands as you would in a regular shell.
-
-### Examples
+## Examples
 
 ```sh
 $ ls
 $ cd /tmp
 $ echo Hello, world!
+Hello, world!
 $ exit
 ```
-
 ## Custom Commands
-
 You can add more built-in commands by editing the `commands` table and providing handler functions in `main.c`.
-
 ## Cleaning Up
-
 To remove compiled files:
 
 ```sh
 make clean
 ```
-
 ## Notes
-
 - This shell is for educational purposes and does not implement advanced features like pipes, redirection, or job control.
 - Only basic error handling is provided.
 
----
 
 Feel free to extend this shell with more features!

@@ -62,11 +62,6 @@ int main() {
         // check if one of the custom commands was entered
         // if error from one of the custom commands, then skip forking
         switch (checkForCommands(args)) {
-            case CONTINUE:
-                continue;
-            case FAIL:
-                // if one of the custom commands fail
-                continue;
             case COMMAND_NOT_FOUND:
                 // no custom command was found, so now its
                 // time to rely on execve
@@ -74,7 +69,7 @@ int main() {
                 // might change in the future
                 break;
             default:
-                break;
+                continue;
         }
 
         int pid = fork();

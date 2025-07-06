@@ -10,7 +10,8 @@
 #include <string.h>
 
 #define BUFFER_SIZE 1024
-#define CONTINUE 2
+
+#define SUCCESS 2
 #define COMMAND_NOT_FOUND 1
 #define FAIL 0
 
@@ -84,5 +85,5 @@ int main() {
         waitpid(pid, &status, 0);
     }
 
-    return COMMAND_NOT_FOUND;
+    return FAIL;
 }

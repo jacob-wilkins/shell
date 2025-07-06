@@ -5,7 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 
-#define CONTINUE 2
+#define SUCCESS 2
 #define COMMAND_NOT_FOUND 1
 #define FAIL 0
 
@@ -18,7 +18,7 @@ typedef struct {
 
 // builtin commands for shell
 int shellExit(char **args) {
-    exit(1);
+    exit(FAIL);
 }
 
 int shellCd(char **args) {
@@ -31,11 +31,11 @@ int shellCd(char **args) {
         return FAIL;
     }
 
-    return CONTINUE;
+    return SUCCESS;
 }
 
 int shellEmpty(char **args) {
-    return CONTINUE;
+    return SUCCESS;
 }
 
 Commands commands[] = {

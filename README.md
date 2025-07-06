@@ -3,9 +3,6 @@
 
 This project is a simple Unix-like shell implemented in C. It supports running external commands, as well as a set of built-in commands.
 
-
-
-
 ## Features
 
 - Execute external programs (e.g., `ls`, `echo`, etc.)

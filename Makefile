@@ -18,6 +18,6 @@ clean:
 	rm -f $(OBJ) $(TARGET)
 
 run:
-	./$(TARGET)
+	gnome-terminal -- ./$(TARGET)
 
 .PHONY: all clean run

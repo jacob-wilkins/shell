@@ -12,7 +12,21 @@ This project is a simple Unix-like shell implemented in C. It supports running e
 - Command-line prompt
 - Basic argument parsing (space-delimited)
 
+## Dependencies
 
+- gcc
+- make
+- POSIX-complient OS (in order to fork and execvp)
+- gnome-terminal
+
+## BEFORE RUNNING PROJECT
+
+To get all of the dependencies for this project, run:
+
+```sh
+sudo apt-get update
+sudo apt-get install build-essential gnome-terminal
+```
 
 ## Build
 To build the shell, use the provided Makefile:
@@ -20,6 +34,7 @@ To build the shell, use the provided Makefile:
 ```sh
 make
 ```
+
 ## Usage
 
 Run the shell:
